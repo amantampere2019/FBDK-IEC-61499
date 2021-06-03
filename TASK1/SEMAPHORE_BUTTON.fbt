@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="SEMAPHORE_BUTTON" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.3" Author="JHC" Date="2009-09-15" Remarks="Changed transition priorities." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+<CompilerInfo header="package fb.rt.Assingment;" >
+</CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="QI" />
+        <With Var="PT_YELLOW" />
+        <With Var="PT_GREEN" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="QI" />
+        <With Var="PT_YELLOW" />
+        <With Var="PT_GREEN" />
+      </Event>
+      <Event Name="CLK" >
+      </Event>
+      <Event Name="BUTTON" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+        <With Var="RED" />
+        <With Var="YELLOW" />
+        <With Var="GREEN" />
+        <With Var="RT_YELLOW" />
+        <With Var="RT_GREEN" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="YELLOW" />
+        <With Var="RED" />
+        <With Var="QO" />
+        <With Var="GREEN" />
+        <With Var="RT_YELLOW" />
+        <With Var="RT_GREEN" />
+      </Event>
+      <Event Name="SEMAPHORE_OUT" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PT_YELLOW" Type="UINT" />
+      <VarDeclaration Name="PT_GREEN" Type="UINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="RED" Type="BOOL" />
+      <VarDeclaration Name="YELLOW" Type="BOOL" />
+      <VarDeclaration Name="GREEN" Type="BOOL" />
+      <VarDeclaration Name="RT_YELLOW" Type="UINT" />
+      <VarDeclaration Name="RT_GREEN" Type="UINT" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="BT_COUNT" Type="UINT" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="1527.7777" y="1044.4445" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="1488.8888" y="116.666664" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="211.1111" y="266.66666" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="RT_GREEN" x="3427.7776" y="1250.0" >
+        <ECAction Algorithm="RT_GREEN" Output="CNF" />
+      </ECState>
+      <ECState Name="RT_YELLOW" x="2205.5554" y="2011.1111" >
+        <ECAction Algorithm="RT_YELLOW" Output="CNF" />
+      </ECState>
+      <ECState Name="SEMA_SIG" x="266.66666" y="1938.8888" >
+        <ECAction Algorithm="SEMA_SIG" Output="SEMAPHORE_OUT" />
+      </ECState>
+      <ECState Name="BUTTON" x="1877.7777" y="2855.5554" >
+        <ECAction Algorithm="BUTTON" Output="CNF" />
+      </ECState>
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="1666.6666" y="594.4444" />
+      <ECTransition Source="START" Destination="REQ" Condition="REQ" x="472.2222" y="788.88885" />
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="1366.6666" y="605.55554" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="899.99994" y="522.2222" />
+      <ECTransition Source="START" Destination="RT_GREEN" Condition="CLK [RT_GREEN>0]" x="2811.111" y="922.22217" />
+      <ECTransition Source="RT_GREEN" Destination="START" Condition="1" x="2527.7776" y="1250.0" />
+      <ECTransition Source="START" Destination="RT_YELLOW" Condition="CLK [RT_YELLOW>0]" x="2205.5554" y="1566.6666" />
+      <ECTransition Source="RT_YELLOW" Destination="START" Condition="1" x="1705.5555" y="1577.7777" />
+      <ECTransition Source="START" Destination="SEMA_SIG" Condition="CLK [RT_YELLOW = 0]" x="555.55554" y="1366.6666" />
+      <ECTransition Source="SEMA_SIG" Destination="START" Condition="1" x="961.1111" y="1527.7777" />
+      <ECTransition Source="START" Destination="BUTTON" Condition="BUTTON [GREEN=TRUE]" x="2005.5554" y="2272.2222" />
+      <ECTransition Source="BUTTON" Destination="START" Condition="1" x="1461.1111" y="2027.7777" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+<ST><![CDATA[]]></ST>
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+<ST><![CDATA[RT_GREEN := PT_GREEN;
+RT_YELLOW := PT_YELLOW;
+BT_COUNT := 4;
+RED := FALSE;
+YELLOW := FALSE;
+GREEN := FALSE;]]></ST>
+  </Algorithm>
+  <Algorithm Name="RT_GREEN" >
+<ST><![CDATA[RT_GREEN := RT_GREEN - 1;
+GREEN := (RT_GREEN <= PT_GREEN);
+GREEN := NOT(RT_GREEN = 0);]]></ST>
+  </Algorithm>
+  <Algorithm Name="RT_YELLOW" >
+<ST><![CDATA[RT_YELLOW := RT_YELLOW - 1;
+YELLOW := (RT_YELLOW <= PT_YELLOW);
+YELLOW := NOT(RT_YELLOW = 0);
+RED := (RT_YELLOW = 0);]]></ST>
+  </Algorithm>
+  <Algorithm Name="SEMA_SIG" >
+<ST><![CDATA[RED := TRUE;
+RT_YELLOW := RT_YELLOW - 1;]]></ST>
+  </Algorithm>
+  <Algorithm Name="BUTTON" >
+<ST><![CDATA[IF BT_COUNT > 0  THEN
+BT_COUNT := BT_COUNT-1;
+END_IF;
+IF BT_COUNT = 0  THEN
+BT_COUNT := BT_COUNT-1;
+RT_GREEN := 4;
+RT_YELLOW := PT_YELLOW;
+END_IF;]]></ST>
+  </Algorithm>
+  </BasicFB>
+</FBType>

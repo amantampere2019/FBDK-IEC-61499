@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ModelLightSet" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+<CompilerInfo header="package fb.rt.Assingment;" >
+</CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="QI" />
+        <With Var="RedSignal" />
+        <With Var="YellowSignal" />
+        <With Var="GreenSignal" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="QI" />
+        <With Var="RedSignal" />
+        <With Var="YellowSignal" />
+        <With Var="GreenSignal" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="QO" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="RedSignal" Type="BOOL" />
+      <VarDeclaration Name="YellowSignal" Type="BOOL" />
+      <VarDeclaration Name="GreenSignal" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="RedLight" Type="OUT_BOOL" x="844.4444" y="566.6666" >
+      <Parameter Name="LABEL" Value="RED" />
+      <Parameter Name="C0" Value="[0,0,0]" />
+      <Parameter Name="C1" Value="[255,0,0]" />
+      <Parameter Name="QI" Value="1" />
+    </FB>
+    <FB Name="YellowLight" Type="OUT_BOOL" x="1738.8888" y="566.6666" >
+      <Parameter Name="LABEL" Value="YELLOW" />
+      <Parameter Name="C0" Value="[0,0,0]" />
+      <Parameter Name="C1" Value="[255,255,0]" />
+      <Parameter Name="QI" Value="1" />
+    </FB>
+    <FB Name="GreenLight" Type="OUT_BOOL" x="2622.2222" y="572.2222" >
+      <Parameter Name="LABEL" Value="GREEN" />
+      <Parameter Name="C0" Value="[0,0,0]" />
+      <Parameter Name="C1" Value="[0,255,0]" />
+      <Parameter Name="QI" Value="1" />
+    </FB>
+    <EventConnections>
+      <Connection Source="RedLight.INITO" Destination="YellowLight.INIT" dx1="55.555553" />
+      <Connection Source="YellowLight.INITO" Destination="GreenLight.INIT" dx1="55.555553" />
+      <Connection Source="INIT" Destination="RedLight.INIT" />
+      <Connection Source="GreenLight.INITO" Destination="INITO" />
+      <Connection Source="REQ" Destination="RedLight.REQ" />
+      <Connection Source="REQ" Destination="YellowLight.REQ" />
+      <Connection Source="REQ" Destination="GreenLight.REQ" />
+      <Connection Source="RedLight.CNF" Destination="CNF" />
+      <Connection Source="YellowLight.CNF" Destination="CNF" />
+      <Connection Source="GreenLight.CNF" Destination="CNF" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="RedSignal" Destination="RedLight.IN" />
+      <Connection Source="YellowSignal" Destination="YellowLight.IN" />
+      <Connection Source="GreenSignal" Destination="GreenLight.IN" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

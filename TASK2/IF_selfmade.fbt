@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="IF_selfmade" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+<CompilerInfo header="package fb.rt.template;" >
+</CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="Input1" />
+        <With Var="input2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Input1" Type="BOOL" />
+      <VarDeclaration Name="input2" Type="BOOL" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="AND" Type="FB_AND" x="1683.3333" y="455.55554" >
+    </FB>
+    <FB Name="PERMIT" Type="E_PERMIT" x="2438.889" y="383.3333" >
+    </FB>
+    <EventConnections>
+      <Connection Source="REQ" Destination="AND.REQ" />
+      <Connection Source="AND.CNF" Destination="PERMIT.EI" dx1="55.555553" />
+      <Connection Source="PERMIT.EO" Destination="CNF" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="Input1" Destination="AND.IN1" />
+      <Connection Source="input2" Destination="AND.IN2" />
+      <Connection Source="AND.OUT" Destination="PERMIT.PERMIT" dx1="55.555553" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<System Name="TRAFFIC_LIGHT_CENTRALIZED" Comment="System Configuration" >
+  <Identification Standard="61499-1" />
+  <VersionInfo Organization="Holobloc Inc." Version="0.4" Author="JHC" Date="2009-03-05" Remarks="Deleted Application." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.3" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWSYSTEM." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2002-11-05" Remarks="Fixed missing (empty) FBD in Application." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-17" Remarks="Minor cleanup" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <Device Name="HMI_ROAD3_ROAD4" Type="FRAME_DEVICE" x="650.0" y="72.22222" >
+    <Parameter Name="GRID" Value="[2,1]" />
+    <Parameter Name="BOUNDS" Value="[10,10,300,500]" />
+    <Resource Name="HMI_ROAD3" Type="PANEL_RESOURCE" x="544.4444" y="261.1111" >
+      <FBNetwork >
+        <FB Name="YellowRT" Type="OUT_ANY" x="1955.5554" y="449.99997" >
+          <Parameter Name="W" Value="8" />
+          <Parameter Name="TYPE" Value="&#34;&#34;" />
+          <Parameter Name="IVAL" Value="&#34;4&#34;" />
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="GreenRT" Type="OUT_ANY" x="3994.4443" y="461.11108" >
+          <Parameter Name="W" Value="8" />
+          <Parameter Name="TYPE" Value="&#34;&#34;" />
+          <Parameter Name="IVAL" Value="&#34;10&#34;" />
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="TransYellowRT" Type="SUBL_1" x="1461.1111" y="449.99997" >
+        </FB>
+        <FB Name="TransGreenRT" Type="SUBL_1" x="3511.111" y="461.11108" >
+        </FB>
+        <FB Name="TransGreenPT" Type="PUBL_1" x="4049.9998" y="1716.6666" >
+        </FB>
+        <FB Name="TransYellowPT" Type="PUBL_1" x="1972.2222" y="1738.8888" >
+        </FB>
+        <FB Name="GreenOnTime" Type="IN_ANY" x="3599.9998" y="1716.6666" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="TYPE" Value="&#34;UINT&#34;" />
+          <Parameter Name="IVAL" Value="&#34;10&#34;" />
+        </FB>
+        <FB Name="YellowOnTime" Type="IN_ANY" x="1438.8888" y="1738.8888" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="TYPE" Value="&#34;UINT&#34;" />
+          <Parameter Name="IVAL" Value="&#34;4&#34;" />
+        </FB>
+        <FB Name="Space2" Type="XSPACE" x="3055.5554" y="77.77777" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Green Remaining Time&#34;" />
+        </FB>
+        <FB Name="Space1" Type="XSPACE" x="1011.1111" y="66.666664" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Yellow Remaining Time&#34;" />
+        </FB>
+        <FB Name="Space3" Type="XSPACE" x="788.88885" y="1738.8888" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Enter to Change  Yellow Time&#34;" />
+        </FB>
+        <FB Name="Space4" Type="XSPACE" x="3016.6665" y="1711.1111" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Change  Green Time&#34;" />
+        </FB>
+        <FB Name="Space" Type="XSPACE" x="383.3333" y="694.4444" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;,,,,Road 3&#34;" />
+        </FB>
+        <EventConnections>
+          <Connection Source="TransYellowRT.IND" Destination="YellowRT.REQ" dx1="66.666664" />
+          <Connection Source="TransGreenRT.IND" Destination="GreenRT.REQ" dx1="178.94737" />
+          <Connection Source="YellowOnTime.IND" Destination="TransYellowPT.REQ" dx1="52.631577" />
+          <Connection Source="GreenOnTime.IND" Destination="TransGreenPT.REQ" dx1="52.631577" />
+          <Connection Source="YellowOnTime.INITO" Destination="TransYellowPT.INIT" dx1="52.631577" />
+          <Connection Source="GreenOnTime.INITO" Destination="TransGreenPT.INIT" dx1="152.63158" />
+          <Connection Source="TransGreenPT.CNF" Destination="YellowOnTime.REQ" dx1="52.631577" dx2="288.8889" dy="1138.8888" />
+          <Connection Source="TransGreenRT.INITO" Destination="GreenRT.INIT" dx1="55.555553" />
+          <Connection Source="YellowRT.INITO" Destination="Space2.INIT" dx1="55.555553" />
+          <Connection Source="Space2.INITO" Destination="TransGreenRT.INIT" dx1="55.555553" />
+          <Connection Source="TransYellowRT.INITO" Destination="YellowRT.INIT" dx1="55.555553" />
+          <Connection Source="Space1.INITO" Destination="TransYellowRT.INIT" dx1="55.555553" />
+          <Connection Source="GreenRT.INITO" Destination="Space3.INIT" dx1="55.555553" dx2="55.555553" dy="1055.5555" />
+          <Connection Source="Space3.INITO" Destination="YellowOnTime.INIT" dx1="55.555553" />
+          <Connection Source="TransYellowPT.INITO" Destination="Space4.INIT" dx1="55.555553" />
+          <Connection Source="Space4.INITO" Destination="GreenOnTime.INIT" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="Space.INIT" dx1="55.555553" />
+          <Connection Source="Space.INITO" Destination="Space1.INIT" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TransYellowRT.RD_1" Destination="YellowRT.IN" dx1="52.631577" />
+          <Connection Source="TransGreenRT.RD_1" Destination="GreenRT.IN" dx1="52.631577" />
+          <Connection Source="YellowOnTime.OUT" Destination="TransYellowPT.SD_1" dx1="52.631577" />
+          <Connection Source="GreenOnTime.OUT" Destination="TransGreenPT.SD_1" dx1="52.631577" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+    <Resource Name="HMI_ROAD4" Type="PANEL_RESOURCE" x="533.3333" y="861.1111" >
+      <FBNetwork >
+        <FB Name="YellowRT2" Type="OUT_ANY" x="1955.5554" y="449.99997" >
+          <Parameter Name="W" Value="8" />
+          <Parameter Name="TYPE" Value="&#34;&#34;" />
+          <Parameter Name="IVAL" Value="&#34;4&#34;" />
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="GreenRT2" Type="OUT_ANY" x="3994.4443" y="461.11108" >
+          <Parameter Name="W" Value="8" />
+          <Parameter Name="TYPE" Value="&#34;&#34;" />
+          <Parameter Name="IVAL" Value="&#34;10&#34;" />
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="TransYellowRT2" Type="SUBL_1" x="1461.1111" y="449.99997" >
+        </FB>
+        <FB Name="TransGreenRT2" Type="SUBL_1" x="3511.111" y="461.11108" >
+        </FB>
+        <FB Name="TransGreenPT2" Type="PUBL_1" x="4049.9998" y="1716.6666" >
+        </FB>
+        <FB Name="TransYellowPT2" Type="PUBL_1" x="1972.2222" y="1738.8888" >
+        </FB>
+        <FB Name="GreenOnTime2" Type="IN_ANY" x="3599.9998" y="1716.6666" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="TYPE" Value="&#34;UINT&#34;" />
+          <Parameter Name="IVAL" Value="&#34;10&#34;" />
+        </FB>
+        <FB Name="YellowOnTime2" Type="IN_ANY" x="1438.8888" y="1738.8888" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="TYPE" Value="&#34;UINT&#34;" />
+          <Parameter Name="IVAL" Value="&#34;4&#34;" />
+        </FB>
+        <FB Name="Space2" Type="XSPACE" x="3055.5554" y="77.77777" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Green Remaining Time&#34;" />
+        </FB>
+        <FB Name="Space1" Type="XSPACE" x="1011.1111" y="66.666664" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Yellow Remaining Time&#34;" />
+        </FB>
+        <FB Name="Space3" Type="XSPACE" x="788.88885" y="1738.8888" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Enter to Change  Yellow Time&#34;" />
+        </FB>
+        <FB Name="Space4" Type="XSPACE" x="3016.6665" y="1711.1111" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;Change  Green Time&#34;" />
+        </FB>
+        <FB Name="Space" Type="XSPACE" x="383.3333" y="694.4444" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,1]" />
+          <Parameter Name="LBLS" Value="&#34;,,,,Road 4&#34;" />
+        </FB>
+        <EventConnections>
+          <Connection Source="TransYellowRT2.IND" Destination="YellowRT2.REQ" dx1="66.666664" />
+          <Connection Source="TransGreenRT2.IND" Destination="GreenRT2.REQ" dx1="178.94737" />
+          <Connection Source="YellowOnTime2.IND" Destination="TransYellowPT2.REQ" dx1="52.631577" />
+          <Connection Source="GreenOnTime2.IND" Destination="TransGreenPT2.REQ" dx1="52.631577" />
+          <Connection Source="YellowOnTime2.INITO" Destination="TransYellowPT2.INIT" dx1="52.631577" />
+          <Connection Source="GreenOnTime2.INITO" Destination="TransGreenPT2.INIT" dx1="152.63158" />
+          <Connection Source="TransGreenPT2.CNF" Destination="YellowOnTime2.REQ" dx1="52.631577" dx2="288.8889" dy="1138.8888" />
+          <Connection Source="TransGreenRT2.INITO" Destination="GreenRT2.INIT" dx1="55.555553" />
+          <Connection Source="YellowRT2.INITO" Destination="Space2.INIT" dx1="55.555553" />
+          <Connection Source="Space2.INITO" Destination="TransGreenRT2.INIT" dx1="55.555553" />
+          <Connection Source="TransYellowRT2.INITO" Destination="YellowRT2.INIT" dx1="55.555553" />
+          <Connection Source="Space1.INITO" Destination="TransYellowRT2.INIT" dx1="55.555553" />
+          <Connection Source="GreenRT2.INITO" Destination="Space3.INIT" dx1="55.555553" dx2="55.555553" dy="1055.5555" />
+          <Connection Source="Space3.INITO" Destination="YellowOnTime2.INIT" dx1="55.555553" />
+          <Connection Source="TransYellowPT2.INITO" Destination="Space4.INIT" dx1="55.555553" />
+          <Connection Source="Space4.INITO" Destination="GreenOnTime2.INIT" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="Space.INIT" dx1="55.555553" />
+          <Connection Source="Space.INITO" Destination="Space1.INIT" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TransYellowRT2.RD_1" Destination="YellowRT2.IN" dx1="52.631577" />
+          <Connection Source="TransGreenRT2.RD_1" Destination="GreenRT2.IN" dx1="52.631577" />
+          <Connection Source="YellowOnTime2.OUT" Destination="TransYellowPT2.SD_1" dx1="52.631577" />
+          <Connection Source="GreenOnTime2.OUT" Destination="TransGreenPT2.SD_1" dx1="52.631577" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Device Name="VIEW_ROAD3_ROAD4" Type="FRAME_DEVICE" x="688.88885" y="666.6666" >
+    <Parameter Name="BOUNDS" Value="[310,10,300,500]" />
+    <Parameter Name="GRID" Value="[2,1]" />
+    <Resource Name="VIEW_ROAD3" Type="PANEL_RESOURCE" x="538.88885" y="561.1111" >
+      <Parameter Name="ROWS" Value="0" />
+      <Parameter Name="COLS" Value="0" />
+      <FBNetwork >
+        <FB Name="TrnsSigRed" Type="SUBL_1" x="127.77777" y="1111.1111" >
+        </FB>
+        <FB Name="YellowLight" Type="OUT_BOOL" x="2444.4443" y="955.55554" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="YELLOW    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[255,255,0]" />
+        </FB>
+        <FB Name="RedLight" Type="OUT_BOOL" x="1594.4443" y="361.11108" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="RED    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[255,0,0]" />
+        </FB>
+        <FB Name="GreenLight" Type="OUT_BOOL" x="4383.333" y="1522.2222" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="GREEN    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[0,255,0]" />
+        </FB>
+        <FB Name="TrnsSigYellow" Type="SUBL_1" x="1566.6666" y="1705.5555" >
+        </FB>
+        <FB Name="TrnsSigGreen" Type="SUBL_1" x="3583.3333" y="2222.2222" >
+        </FB>
+        <FB Name="Space" Type="XSPACE" x="844.4444" y="38.888885" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,3]" />
+          <Parameter Name="LBLS" Value="&#34;,,,,Road 3&#34;" />
+        </FB>
+        <EventConnections>
+          <Connection Source="RedLight.INITO" Destination="YellowLight.INIT" dx1="55.555553" />
+          <Connection Source="YellowLight.INITO" Destination="GreenLight.INIT" dx1="55.555553" />
+          <Connection Source="GreenLight.INITO" Destination="TrnsSigRed.INIT" dx1="144.44444" dx2="55.555553" dy="1344.4443" />
+          <Connection Source="TrnsSigRed.IND" Destination="RedLight.REQ" dx1="794.4444" />
+          <Connection Source="TrnsSigRed.INITO" Destination="TrnsSigYellow.INIT" dx1="183.33333" />
+          <Connection Source="TrnsSigYellow.INITO" Destination="TrnsSigGreen.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow.IND" Destination="YellowLight.REQ" dx1="138.88889" />
+          <Connection Source="TrnsSigGreen.IND" Destination="GreenLight.REQ" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="Space.INIT" dx1="55.555553" />
+          <Connection Source="Space.INITO" Destination="RedLight.INIT" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TrnsSigRed.RD_1" Destination="RedLight.IN" dx1="244.44443" />
+          <Connection Source="TrnsSigYellow.RD_1" Destination="YellowLight.IN" dx1="177.77777" />
+          <Connection Source="TrnsSigGreen.RD_1" Destination="GreenLight.IN" dx1="166.66666" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+    <Resource Name="VIEW_ROAD4" Type="PANEL_RESOURCE" x="577.7778" y="1200.0" >
+      <Parameter Name="ROWS" Value="0" />
+      <Parameter Name="COLS" Value="0" />
+      <FBNetwork >
+        <FB Name="TrnsSigRed2" Type="SUBL_1" x="127.77777" y="1111.1111" >
+        </FB>
+        <FB Name="YellowLight2" Type="OUT_BOOL" x="2444.4443" y="955.55554" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="YELLOW    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[255,255,0]" />
+        </FB>
+        <FB Name="RedLight2" Type="OUT_BOOL" x="1594.4443" y="361.11108" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="RED    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[255,0,0]" />
+        </FB>
+        <FB Name="GreenLight2" Type="OUT_BOOL" x="4372.222" y="1522.2222" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="LABEL" Value="GREEN    ." />
+          <Parameter Name="C0" Value="[0,0,0]" />
+          <Parameter Name="C1" Value="[0,255,0]" />
+        </FB>
+        <FB Name="TrnsSigYellow2" Type="SUBL_1" x="1566.6666" y="1705.5555" >
+        </FB>
+        <FB Name="TrnsSigGreen2" Type="SUBL_1" x="3583.3333" y="2222.2222" >
+        </FB>
+        <FB Name="Space" Type="XSPACE" x="844.4444" y="38.888885" >
+          <Parameter Name="DIA" Value="20" />
+          <Parameter Name="DIMS" Value="[15,3]" />
+          <Parameter Name="LBLS" Value="&#34;,,,,Road 4&#34;" />
+        </FB>
+        <EventConnections>
+          <Connection Source="RedLight2.INITO" Destination="YellowLight2.INIT" dx1="55.555553" />
+          <Connection Source="YellowLight2.INITO" Destination="GreenLight2.INIT" dx1="55.555553" />
+          <Connection Source="GreenLight2.INITO" Destination="TrnsSigRed2.INIT" dx1="144.44444" dx2="55.555553" dy="1344.4443" />
+          <Connection Source="TrnsSigRed2.IND" Destination="RedLight2.REQ" dx1="794.4444" />
+          <Connection Source="TrnsSigRed2.INITO" Destination="TrnsSigYellow2.INIT" dx1="183.33333" />
+          <Connection Source="TrnsSigYellow2.INITO" Destination="TrnsSigGreen2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow2.IND" Destination="YellowLight2.REQ" dx1="138.88889" />
+          <Connection Source="TrnsSigGreen2.IND" Destination="GreenLight2.REQ" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="Space.INIT" dx1="55.555553" />
+          <Connection Source="Space.INITO" Destination="RedLight2.INIT" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TrnsSigRed2.RD_1" Destination="RedLight2.IN" dx1="244.44443" />
+          <Connection Source="TrnsSigYellow2.RD_1" Destination="YellowLight2.IN" dx1="177.77777" />
+          <Connection Source="TrnsSigGreen2.RD_1" Destination="GreenLight2.IN" dx1="166.66666" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Device Name="MODEL_ROAD3_ROAD4" Type="FRAME_DEVICE" x="716.6666" y="1322.2222" >
+    <Parameter Name="BOUNDS" Value="[0,0,0,0]" />
+    <Parameter Name="GRID" Value="[1,1]" />
+    <Resource Name="MODEL_ROAD3" Type="PANEL_RESOURCE" x="822.22217" y="1155.5555" >
+      <Parameter Name="ROWS" Value="0" />
+      <Parameter Name="COLS" Value="0" />
+      <FBNetwork >
+        <FB Name="TrnsSigRed" Type="SUBL_1" x="638.88885" y="116.666664" >
+        </FB>
+        <FB Name="TrnsSigYellow" Type="SUBL_1" x="1216.6666" y="366.66666" >
+        </FB>
+        <FB Name="TrnsSigGreen" Type="SUBL_1" x="1855.5555" y="600.0" >
+        </FB>
+        <FB Name="ModelLight" Type="ModelLightSet" x="3088.8887" y="1272.2222" >
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <EventConnections>
+          <Connection Source="TrnsSigRed.INITO" Destination="TrnsSigYellow.INIT" dx1="183.33333" />
+          <Connection Source="TrnsSigYellow.INITO" Destination="TrnsSigGreen.INIT" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="TrnsSigRed.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen.INITO" Destination="ModelLight.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigRed.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TrnsSigRed.RD_1" Destination="ModelLight.RedSignal" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow.RD_1" Destination="ModelLight.YellowSignal" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen.RD_1" Destination="ModelLight.GreenSignal" dx1="55.555553" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+    <Resource Name="MODEL_ROAD4" Type="PANEL_RESOURCE" x="1977.7777" y="1166.6666" >
+      <Parameter Name="ROWS" Value="0" />
+      <Parameter Name="COLS" Value="0" />
+      <FBNetwork >
+        <FB Name="TrnsSigRed2" Type="SUBL_1" x="638.88885" y="116.666664" >
+        </FB>
+        <FB Name="TrnsSigYellow2" Type="SUBL_1" x="1216.6666" y="366.66666" >
+        </FB>
+        <FB Name="TrnsSigGreen2" Type="SUBL_1" x="1855.5555" y="600.0" >
+        </FB>
+        <FB Name="ModelLight" Type="ModelLightSet" x="3088.8887" y="1272.2222" >
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <EventConnections>
+          <Connection Source="TrnsSigRed2.INITO" Destination="TrnsSigYellow2.INIT" dx1="183.33333" />
+          <Connection Source="TrnsSigYellow2.INITO" Destination="TrnsSigGreen2.INIT" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="TrnsSigRed2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen2.INITO" Destination="ModelLight.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen2.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow2.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigRed2.IND" Destination="ModelLight.REQ" dx1="55.555553" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="TrnsSigRed2.RD_1" Destination="ModelLight.RedSignal" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow2.RD_1" Destination="ModelLight.YellowSignal" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen2.RD_1" Destination="ModelLight.GreenSignal" dx1="55.555553" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Device Name="CONTROL_ROAD3_ROAD4" Type="FRAME_DEVICE" x="705.55554" y="2094.4443" >
+    <Parameter Name="BOUNDS" Value="[0,0,0,0]" />
+    <Parameter Name="GRID" Value="[1,1]" />
+    <Resource Name="CENTRALIZE_CONTROL" Type="PANEL_RESOURCE" x="538.88885" y="561.1111" >
+      <Parameter Name="ROWS" Value="0" />
+      <Parameter Name="COLS" Value="0" />
+      <FBNetwork >
+        <FB Name="Semaphore1" Type="SEMAPHORE_CU" x="2444.4443" y="0.0" >
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="TrnsSigRed" Type="PUBL_1" x="3377.7776" y="0.0" >
+        </FB>
+        <FB Name="TrnsSigYellow" Type="PUBL_1" x="3838.8887" y="122.22221" >
+        </FB>
+        <FB Name="TrnsSigGreen" Type="PUBL_1" x="4311.111" y="305.55554" >
+        </FB>
+        <FB Name="TransYellowRT" Type="PUBL_1" x="4733.333" y="511.11108" >
+        </FB>
+        <FB Name="TransGreenRT" Type="PUBL_1" x="5144.4443" y="822.22217" >
+        </FB>
+        <FB Name="TransYellowPT" Type="SUBL_1" x="1411.1111" y="377.77777" >
+        </FB>
+        <FB Name="TransGreenPT" Type="SUBL_1" x="1833.3333" y="377.77777" >
+        </FB>
+        <FB Name="GlobalCLK" Type="SUBL_0" x="544.4444" y="88.888885" >
+        </FB>
+        <FB Name="TransYellowPT2" Type="SUBL_1" x="744.4444" y="2244.4443" >
+        </FB>
+        <FB Name="TransGreenPT2" Type="SUBL_1" x="1444.4443" y="2272.2222" >
+        </FB>
+        <FB Name="Semaphore2" Type="SEMAPHORE_CU" x="2344.4443" y="1844.4443" >
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="TrnsSigRed2" Type="PUBL_1" x="3338.8887" y="1866.6666" >
+        </FB>
+        <FB Name="TrnsSigYellow2" Type="PUBL_1" x="3905.5554" y="1994.4443" >
+        </FB>
+        <FB Name="TrnsSigGreen2" Type="PUBL_1" x="4405.555" y="2166.6665" >
+        </FB>
+        <FB Name="TransYellowRT2" Type="PUBL_1" x="4894.4443" y="2288.889" >
+        </FB>
+        <FB Name="TransGreenRT2" Type="PUBL_1" x="5366.6665" y="2416.6665" >
+        </FB>
+        <FB Name="Split" Type="E_SPLIT" x="188.88889" y="972.22217" >
+        </FB>
+        <FB Name="SplitCLK" Type="E_SPLIT" x="922.22217" y="583.3333" >
+        </FB>
+        <EventConnections>
+          <Connection Source="Semaphore1.INITO" Destination="TrnsSigRed.INIT" dx1="55.555553" />
+          <Connection Source="Semaphore1.CNF" Destination="TrnsSigRed.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigRed.INITO" Destination="TrnsSigYellow.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigRed.CNF" Destination="TrnsSigYellow.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow.INITO" Destination="TrnsSigGreen.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow.CNF" Destination="TrnsSigGreen.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen.INITO" Destination="TransYellowRT.INIT" dx1="52.631577" />
+          <Connection Source="TrnsSigGreen.CNF" Destination="TransYellowRT.REQ" dx1="52.631577" />
+          <Connection Source="TransYellowRT.INITO" Destination="TransGreenRT.INIT" dx1="52.631577" />
+          <Connection Source="TransYellowRT.CNF" Destination="TransGreenRT.REQ" dx1="52.631577" />
+          <Connection Source="TransYellowPT.INITO" Destination="TransGreenPT.INIT" dx1="52.631577" />
+          <Connection Source="TransGreenPT.IND" Destination="Semaphore1.REQ" dx1="194.44444" dx2="52.631577" dy="78.947365" />
+          <Connection Source="GlobalCLK.INITO" Destination="TransYellowPT.INIT" dx1="55.555553" />
+          <Connection Source="TransGreenPT.INITO" Destination="Semaphore1.INIT" dx1="94.44444" />
+          <Connection Source="GlobalCLK.IND" Destination="SplitCLK.EI" dx1="55.555553" />
+          <Connection Source="SplitCLK.EO1" Destination="Semaphore1.CLK" dx1="55.555553" />
+          <Connection Source="SplitCLK.EO2" Destination="Semaphore2.CLK" dx1="200.0" />
+          <Connection Source="START.COLD" Destination="Split.EI" dx1="27.777777" dx2="55.555553" dy="1044.4445" />
+          <Connection Source="Split.EO1" Destination="GlobalCLK.INIT" dx1="27.777777" />
+          <Connection Source="TransYellowPT2.INITO" Destination="TransGreenPT2.INIT" dx1="55.555553" />
+          <Connection Source="Split.EO2" Destination="TransYellowPT2.INIT" dx1="55.555553" />
+          <Connection Source="TransGreenPT2.INITO" Destination="Semaphore2.INIT" dx1="55.555553" />
+          <Connection Source="Semaphore2.INITO" Destination="TrnsSigRed2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigRed2.INITO" Destination="TrnsSigYellow2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow2.INITO" Destination="TrnsSigGreen2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen2.INITO" Destination="TransYellowRT2.INIT" dx1="55.555553" />
+          <Connection Source="TransYellowRT2.INITO" Destination="TransGreenRT2.INIT" dx1="55.555553" />
+          <Connection Source="TrnsSigRed2.CNF" Destination="TrnsSigYellow2.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigYellow2.CNF" Destination="TrnsSigGreen2.REQ" dx1="55.555553" />
+          <Connection Source="TrnsSigGreen2.CNF" Destination="TransYellowRT2.REQ" dx1="55.555553" />
+          <Connection Source="TransYellowRT2.CNF" Destination="TransGreenRT2.REQ" dx1="55.555553" />
+          <Connection Source="Semaphore2.CNF" Destination="TrnsSigRed2.REQ" dx1="55.555553" />
+          <Connection Source="Semaphore1.SEMAPHORE_OUT" Destination="Semaphore2.REQ" dx1="177.77777" dx2="55.555553" dy="1816.6666" />
+          <Connection Source="Semaphore2.SEMAPHORE_OUT" Destination="Semaphore1.REQ" dx1="55.555553" dx2="183.33333" dy="83.33333" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="Semaphore1.RED" Destination="TrnsSigRed.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore1.YELLOW" Destination="TrnsSigYellow.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore1.GREEN" Destination="TrnsSigGreen.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore1.RT_YELLOW" Destination="TransYellowRT.SD_1" dx1="52.631577" />
+          <Connection Source="Semaphore1.RT_GREEN" Destination="TransGreenRT.SD_1" dx1="52.631577" />
+          <Connection Source="TransYellowPT.RD_1" Destination="Semaphore1.PT_YELLOW" dx1="52.631577" />
+          <Connection Source="TransGreenPT.RD_1" Destination="Semaphore1.PT_GREEN" dx1="52.631577" dx2="68.42105" dy="78.947365" />
+          <Connection Source="Semaphore2.RED" Destination="TrnsSigRed2.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore2.YELLOW" Destination="TrnsSigYellow2.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore2.GREEN" Destination="TrnsSigGreen2.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore2.RT_YELLOW" Destination="TransYellowRT2.SD_1" dx1="55.555553" />
+          <Connection Source="Semaphore2.RT_GREEN" Destination="TransGreenRT2.SD_1" dx1="55.555553" />
+          <Connection Source="TransGreenPT2.RD_1" Destination="Semaphore2.PT_GREEN" dx1="55.555553" />
+          <Connection Source="TransYellowPT2.RD_1" Destination="Semaphore2.PT_YELLOW" dx1="55.555553" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+    <Resource Name="GLOBAL_CLK" Type="PANEL_RESOURCE" x="588.88885" y="1177.7777" >
+      <FBNetwork >
+        <FB Name="CLK" Type="E_CYCLE" x="1283.3333" y="505.55554" >
+          <Parameter Name="DT" Value="t#1000ms" />
+        </FB>
+        <FB Name="GlobalCLK" Type="PUBL_0" x="2355.5554" y="205.55554" >
+        </FB>
+        <FB Name="Split" Type="E_SPLIT" x="633.3333" y="0.0" >
+        </FB>
+        <EventConnections>
+          <Connection Source="START.STOP" Destination="CLK.STOP" dx1="55.555553" />
+          <Connection Source="CLK.EO" Destination="GlobalCLK.REQ" dx1="55.555553" />
+          <Connection Source="START.COLD" Destination="Split.EI" dx1="55.555553" />
+          <Connection Source="Split.EO2" Destination="CLK.START" dx1="55.555553" />
+          <Connection Source="Split.EO1" Destination="GlobalCLK.INIT" dx1="55.555553" />
+        </EventConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+</System>
